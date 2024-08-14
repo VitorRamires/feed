@@ -1,0 +1,13 @@
+.header{
+	background-color: var(--gray-800);
+	color: #ffff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.7rem;
+	padding:1.25rem 0;
+}
+
+.header img{
+	height: 2rem;
+}
