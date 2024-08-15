@@ -25,7 +25,7 @@
 	outline: 2px solid var(--green-500);
 }
 
-strong{
+.profile > strong{
 	margin-top:1rem;
 	color: var(--gray-100);
 	line-height: 1.6;
