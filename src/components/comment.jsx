@@ -19,7 +19,7 @@ export function Comment () {
 								<Trash size={20}/>
 							</button>
 						</header>
-						<p>Texto teste</p>
+						<p>Comentário</p>
 				</div>
 
 				<footer>

@@ -18,12 +18,8 @@ export function Post () {
 			</header>
 
 			<div className={styles.content}>
-				<p>Lorem ipsum dolor sit amet, consectetur 
-				adipisicing</p>
-				<p>Lorem ipsum dolor sit amet, consectetur 
-				adipisicing</p>
-				<p>Lorem ipsum dolor sit amet, consectetur 
-				adipisicing</p>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolorem accusantium neque veniam magnam. 
+					Neque pariatur aut, quae similique recusandae voluptas iusto voluptatum commodi eum tempora a? Officia, quo vel.</p>
 				<a href="#"><p>Link</p></a>
 				<p>
 					<a className={styles.hashtag} href="">#novoprojeto</a>
