@@ -71,9 +71,12 @@
 	align-items: center;
 }
 
-.commentBox footer button:hover{
-	color: var(--green-300);
+.commentBox footer button:hover,
+.likeGiving{
+	color: var(--green-300) !important;
 }
+
+
 
 .commentBox footer button svg{
 	margin-right:0.5rem;
