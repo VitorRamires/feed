@@ -1,25 +1,74 @@
 import styles from './Post.module.css'
+import { useState } from 'react'
+import { format, formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale/pt-BR'
 import { Avatar } from './avatar.jsx'
 import { Comment } from './comment.jsx'
 
-export function Post () {
+
+
+
+export function Post ({author, publishedAt, content}) {
+	
+	const publishedDateFormate = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+		locale: ptBR
+	})
+
+	const publishedRelativeNow = formatDistanceToNow(publishedAt, {
+		locale:ptBR,
+		addSuffix:true
+	})
+
+	const [comments, setComments] = useState([])
+	const [newCommentText, setNewCommentText] = useState('')
+	
+	function handleCreateNewComment(event){
+		event.preventDefault()
+		setComments([...comments, newCommentText])
+		setNewCommentText('')
+	}
+
+	function handleCommentChange(event){
+		event.target.setCustomValidity('')
+		setNewCommentText(event.target.value)
+	}
+
+	function deleteComment(commentToDelete){
+		const commentsWithoutDeletedOne = comments.filter(comment => {
+			return comment !== commentToDelete
+		})
+
+		setComments(commentsWithoutDeletedOne)
+	}
+
+	function handleNewCommentInvalid(event){
+		event.target.setCustomValidity('campo requerido')
+	}
+
+	const isNewCommentEmpty = newCommentText.length === 0
+
   return (
 		<article className={styles.post}>
-
 			<header>
 				<div className={styles.author}>
-					<Avatar src="https://pbs.twimg.com/profile_images/1800681301587918848/S4rKPZfP_400x400.jpg" />
+					<Avatar src={author.avatarUrl} />
 					<div className={styles.authorInfo}>
-						<strong>Vitor Ramires</strong>
-						<span>Developer</span>
+						<strong>{author.name}</strong>
+						<span>{author.role}</span>
 					</div>
 				</div>
-				<time title="11 de maio às 8:13" dateTime="2022-05-11 08:13:30">Publicado há 1h</time>
+				<time title= {publishedDateFormate} dateTime={publishedAt.toISOString()}>{publishedRelativeNow}</time>
 			</header>
 
 			<div className={styles.content}>
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolorem accusantium neque veniam magnam. 
-					Neque pariatur aut, quae similique recusandae voluptas iusto voluptatum commodi eum tempora a? Officia, quo vel.</p>
+				{content.map(item => {
+					if(item.type === 'paragraph'){
+						return (
+						<p key={item.content}>{item.content}</p>
+						) } else if (item.type === 'link'){
+							return <p key={item.content}><a href='#'>{item.link}</a></p>
+						}
+				})}
 				<a href="#"><p>Link</p></a>
 				<p>
 					<a className={styles.hashtag} href="">#novoprojeto</a>
@@ -28,19 +77,35 @@ export function Post () {
 				</p>
 			</div>
 
-			<form action="" className={styles.commentForm}>
+			<form onSubmit = {handleCreateNewComment} action="" className={styles.commentForm}>
 				<strong>Deixe seu feedback</strong>
-				<textarea placeholder='Deixe seu comentario'/>
+				<textarea 
+				value = {newCommentText}
+				name='comment' 
+				placeholder='Deixe seu comentario'
+				onChange = {handleCommentChange}
+				onInvalid={handleNewCommentInvalid}
+				required
+				/>
 
 				<footer>
-					<button type='submit'>Públicar</button>
+					<button 
+						type='submit' disabled={isNewCommentEmpty}> 
+						Publicar
+					</button>
 				</footer>
-
 			</form>
+			
 				<div className={styles.commentList}>
-					<Comment />
-					<Comment />
-					<Comment />
+					{comments.map(comment=>{
+						return (
+							<Comment 
+								key={comment} 
+								content={comment} 
+								deleteComment = {deleteComment}
+							/>
+						)
+					})}
 				</div>
 
 		</article>
